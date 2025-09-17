@@ -1,84 +1,35 @@
 const express=require("express")
+const empRouter=require("./routes/employeeRoutes")
+
+const dotenv=require("dotenv")
+const DBconnection = require("./configuration/db.config")
+dotenv.config()
+
 
 const app=express()
 
+
 app.use(express.json())
 
-const employees=[
-    {
-        id:1,
-        name:"rahul"
-    },{
-        id:2,
-        name:"charan"
+const connect=async ()=>{
+    try{
+        await DBconnection()
+        console.log("data base synched successfully")
 
-    }
-]
+    }catch(error){
+        console.log("database not connected")
 
-
-app.get("/",(req,res)=>{
-    res.json({message:"welcome to node js"})
-
-})
-app.get("/employees",(req,res)=>{
-    res.json(employees)
-})
-
-app.get('/employee/:id',(req,res)=>{
-    const id=req.params.id
-    const emp=employees.find((emp)=>{
-        if(emp.id==id){
-            return emp
-        }
-    })
-    if(emp){
-        res.json({data:emp})
-    }else{
-        res.json({message:"employee not found"})
     }
 }
-)
 
-app.post("/employee",(req,res)=>{
-   const {name}=req.body
-   const newid=employees.length+1
-    employees.push({id:newid,name:name})
-    res.json({message:"employee created successfully",data:employees})
-})
+connect()
+const middleware=(req,res,next)=>{
+console.log("middleware is running")
+next()
+}
+app.use(middleware)
 
-
-app.put("/employee/:id",(req,res)=>{
-    const id=req.params.id
-    const {name}=req.body
-    const newEmployeesData=employees.map((emp)=>{
-        if(emp.id==id){
-            return {...emp,name:name}
-        }else{
-            return emp
-        }
-
-    })
-
-    res.json({message:"EMployee updated successfully",data:newEmployeesData})
-
-
-})
-
-
-app.delete("/employee/:id",(req,res)=>{
-    const id=req.params.id
-    const newEmployeesData =employees.filter((emp)=>{
-        if(emp.id!=id){
-            return emp
-        }
-    })
-
-    res.json({message:"employee deleted successfully",data:newEmployeesData})
-
-
-
-})
-
+app.use("/users",middleware,empRouter)
 
 
 
