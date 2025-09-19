@@ -1,16 +1,19 @@
 const express=require("express")
-const empRouter=require("./routes/employeeRoutes")
 
+const cookieParser=require("cookie-parser")
 const dotenv=require("dotenv")
 const DBconnection = require("./configuration/db.config")
 const UserRouter = require("./routes/user.routes")
 const { postsRouter } = require("./routes/posts.routes")
+const { registerRouter } = require("./routes/register.route")
+const { empLoginRouter } = require("./routes/login.route")
+const empRouter = require("./routes/employeeRoutes")
 dotenv.config()
 
 
 const app=express()
 
-
+app.use(cookieParser())
 app.use(express.json())
 
 const connect=async ()=>{
@@ -25,16 +28,15 @@ const connect=async ()=>{
 }
 
 connect()
-const middleware=(req,res,next)=>{
-console.log("middleware is running")
-next()
-}
-app.use(middleware)
 
-// app.use("/users",middleware,empRouter)
 
+
+app.use("/employee/dashboard",empRouter)
 app.use("/Users",UserRouter)
 app.use("/posts",postsRouter)
+app.use("/employee",registerRouter)
+app.use("/emp",empLoginRouter)
+app.use("/v1/employee/",empRouter)
 
 
 
