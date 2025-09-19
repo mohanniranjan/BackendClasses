@@ -11,7 +11,7 @@ const jwt=require("jsonwebtoken")
 //                 httpOnly:true,
 //                 secure:false,
                 
-//                 maxAge: 2*24*60*1000            
+//                 maxAge: 2*24*60*60*1000            
 
 //             })
 //             res.json({
