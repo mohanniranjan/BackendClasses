@@ -3,6 +3,8 @@ const empRouter=require("./routes/employeeRoutes")
 
 const dotenv=require("dotenv")
 const DBconnection = require("./configuration/db.config")
+const UserRouter = require("./routes/user.routes")
+const { postsRouter } = require("./routes/posts.routes")
 dotenv.config()
 
 
@@ -29,7 +31,10 @@ next()
 }
 app.use(middleware)
 
-app.use("/users",middleware,empRouter)
+// app.use("/users",middleware,empRouter)
+
+app.use("/Users",UserRouter)
+app.use("/posts",postsRouter)
 
 
 
