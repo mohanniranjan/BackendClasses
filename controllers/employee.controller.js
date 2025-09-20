@@ -1,6 +1,7 @@
 const { get } = require("mongoose");
 const Employee = require("../models/employees.model");
 
+
 const create = async (req, res) => {
   const { name, age, email, password } = req.body;
   const empData = await Employee.create({
@@ -145,6 +146,14 @@ const dashBoard = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+
+
+
 module.exports = {
   create,
   createMany,

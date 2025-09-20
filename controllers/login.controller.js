@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const Employee = require("../models/employees.model");
-const jwt=require("jsonwebtoken")
+const jwt=require("jsonwebtoken");
+const Register = require("../models/register.model");
 // const empLogin=async(req,res)=>{
 //     const {email,password}=req.body
 //     const emp = await Employee.findOne({ email: email });
@@ -30,7 +31,7 @@ const jwt=require("jsonwebtoken")
 
 const empLogin=async(req,res)=>{
     const {email,password}=req.body
-    const emp = await Employee.findOne({ email: email });
+    const emp = await Register.findOne({ email: email });
     if(emp){
         const isPasswordMatch=await bcrypt.compare(password,emp.password)
         if(isPasswordMatch){

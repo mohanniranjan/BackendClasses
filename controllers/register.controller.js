@@ -1,19 +1,24 @@
-const Employee = require("../models/employees.model");
+
 const bcrypt = require("bcrypt");
+const Register = require("../models/register.model");
 
 const empRegister = async (req, res) => {
-  const { name, age, email, password } = req.body;
+    const file=req.file
+   
+ 
+    
+  const { name, email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const emp = await Employee.findOne({ email: email });
+  const emp = await Register.findOne({ email: email });
   if (emp) {
     res.json({ message: "employee already existed" });
   } else {
-    const empData = await Employee.create({
+    const empData = await Register.create({
       name: name,
-      age: age,
       email: email,
       password: hashedPassword,
+      image:file.filename
     });
     if (empData) {
       res.json({
